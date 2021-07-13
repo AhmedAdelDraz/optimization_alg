@@ -1,4 +1,4 @@
-def adam(x_data,y_data,epochs,batch_size=4,alpha=0.001,beta_1=0.9,beta_2=0.99,epsilon=1e-8):
+def adam(x_data,y_data,epochs,batch_size=4,alpha=0.0001,beta_1=0.9,beta_2=0.999,epsilon=1e-8):
   y_data = y_data.reshape((-1,1))
   theta = np.random.random(size=(x_data.shape[1]+1,1))
   theta_log = []
@@ -19,9 +19,9 @@ def adam(x_data,y_data,epochs,batch_size=4,alpha=0.001,beta_1=0.9,beta_2=0.99,ep
       loss.append((1/(2*b))*np.sum(np.square(h-y_batch)))
       mt = beta_1 * mt + (1 - beta_1) * (1/b)*(x_batch.T@(h-y_batch))
       vt = beta_2 * vt + (1 - beta_2) * np.square((1/b)*(x_batch.T@(h-y_batch)))
-      mt = mt /(1-beta_1**t)
-      vt = vt /(1-beta_2**t)
-      theta = theta - alpha*(1/(np.sqrt(vt)+epsilon)) * mt 
+      mt_hat = mt /(1-beta_1**t)
+      vt_hat = vt /(1-beta_2**t)
+      theta = theta - alpha*(1/(np.sqrt(vt_hat)+epsilon)) * mt_hat 
 
       t+=1
       theta_log.append(theta)
